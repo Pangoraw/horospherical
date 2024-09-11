@@ -7,7 +7,7 @@ This repository contains the code for the article "Horospherical Learning with S
 
 ## Generating uniform prototypes
 
-In order to generate uniformly distributed prototypes on the hypersphere (_i.e._ the boundary of the Poincaré ball), we use the same technique as the one used by Ghadimi et al. and Wang et Isola. which is to optimize a set of points on the hypersphere by maximizing the pairwise distances between points.
+In order to generate uniformly distributed prototypes on the hypersphere (_i.e._ the boundary of the Poincaré ball), we use the same technique as the one used by [Ghadimi Atigh et al.](https://proceedings.neurips.cc/paper/2021/hash/01259a0cb2431834302abe2df60a1327-Abstract.html) and [Wang et Isola.](http://proceedings.mlr.press/v119/wang20k/wang20k.pdf) which is to optimize a set of points on the hypersphere by maximizing the pairwise distances between points.
 
 ```bash
 C=252 # Number of classes
@@ -23,7 +23,7 @@ python prototype_learning.py \
 
 After some number crunching, it will generate the file `prototypesuniform_256d_10c.npy` on disk.
 
-## Making smart prototypes
+## Making "smart" prototypes
 
 In order to assign these randomly generated prototypes according to the method presented in the article, one need to have a label hierarchy and a set of prototypes (one for each node in the hierarchy).
 
@@ -35,6 +35,9 @@ python gromov_protos.py \
     --input-protos prototypesuniform_${D}d_${C}c.npy \
     --output-file prototypesgromov_${D}d_200c.npy
 ```
+## Horospherical Learning
+
+The code for the horospherical classifier presented in the article is located in the file [`horospherical.py`](./horospherical.py).
 
 ## Dependencies
 
@@ -42,6 +45,7 @@ This code depends on the following python packages.
 
  - [Torch](https://pytorch.org)
  - [PythonOT](https://github.com/PythonOT/POT)
+ - [geoopt](https://github.com/geoopt/geoopt)
  - NetworkX
  - tqdm
  - pandas
