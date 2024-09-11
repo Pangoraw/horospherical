@@ -9,7 +9,7 @@ This repository contains the code for the article "Horospherical Learning with S
 
 In order to generate uniformly distributed prototypes on the hypersphere (_i.e._ the boundary of the Poincaré ball), we use the same technique as the one used by [Ghadimi Atigh et al.](https://proceedings.neurips.cc/paper/2021/hash/01259a0cb2431834302abe2df60a1327-Abstract.html) and [Wang et Isola.](http://proceedings.mlr.press/v119/wang20k/wang20k.pdf) which is to optimize a set of points on the hypersphere by maximizing the pairwise distances between points.
 
-```bash
+```sh
 C=252 # Number of classes
 D=256 # Number of dimensions
 EPOCHS=100_000 # Number of epochs
@@ -27,7 +27,7 @@ After some number crunching, it will generate the file `prototypesuniform_256d_1
 
 In order to assign these randomly generated prototypes according to the method presented in the article, one need to have a label hierarchy and a set of prototypes (one for each node in the hierarchy).
 
-```bash
+```sh
 DATASET=cub
 python gromov_protos.py \
     -d $D \
