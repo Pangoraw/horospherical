@@ -3,6 +3,8 @@
 > [!IMPORTANT]
 > 🚧 This repository is still in construction.
 
+<img width="1331" alt="overview" src="https://github.com/user-attachments/assets/4bab9ca6-68b7-48b2-a309-0fd45f2d86f0">
+
 This repository contains the code for the article "Horospherical Learning with Smart Prototypes" to be published at [BMVC2024](https://bmvc2024.com).
 
 ## Generating uniform prototypes
