@@ -43,7 +43,7 @@ The code for the horospherical classifier presented in the article is located in
 
 This code depends on the following python packages.
 
- - [Torch](https://pytorch.org)
+ - [pytorch](https://pytorch.org)
  - [PythonOT](https://github.com/PythonOT/POT)
  - [geoopt](https://github.com/geoopt/geoopt)
  - NetworkX
@@ -51,3 +51,5 @@ This code depends on the following python packages.
  - pandas
  - numpy
  - matplotlib
+
+A conda environment is available in the [`env.yml`](./env.yml) file to reproduce the same versions.
