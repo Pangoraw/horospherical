@@ -71,3 +71,16 @@ This code depends on the following python packages.
  - matplotlib
 
 A conda environment is available in the [`env.yml`](./env.yml) file to reproduce the same versions.
+
+## Citing
+
+If this repository or the article is helpful to your research, considering citing the corresponding article:
+
+```bibtex
+@inproceedings{berg2024horospherical,
+  title={Horospherical Learning with Smart Prototypes},
+  author={Berg, Paul and Michele, Bjoern and Pham, Minh-Tan and Chapel, Laetitia and Courty, Nicolas},
+  booktitle={Proceedings of the British Machine Vision Conference (BMVC)},
+  year={2024}
+}
+```
