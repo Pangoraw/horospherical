@@ -356,6 +356,19 @@ def hierarchical_node_mapping(G: nx.DiGraph) -> dict[str,int]:
 
     return mapping
 
+def compute_dist_matrix(G: nx.DiGraph) -> torch.Tensor:
+    leaves = [n for n in G.nodes if is_leaf(G, n)]
+    N = len(leaves)
+    D = torch.zeros((N,N))
+
+    uG = nx.Graph(G)
+    for i, n in enumerate(leaves):
+        for jj, m in enumerate(leaves[i+1:]):
+            j = i + jj + 1
+            D[j,i] = D[i,j] = nx.shortest_path_length(uG, source=n, target=m)
+
+    return D
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--dim", type=int, default=3)
