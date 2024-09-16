@@ -41,6 +41,22 @@ python gromov_protos.py \
 
 The code for the horospherical classifier presented in the article is located in the file [`horospherical.py`](./horospherical.py).
 
+## Experiments
+
+In the paper, several kind of experiments on classification over hierarchical data is performed.
+
+### Image Classification
+
+The code for the image classification experiments is located in folder [`classification/`](./classification).
+
+### Semantic Segmentation
+
+TO BE RELEASED.
+
+### Point-Cloud Segmentation
+
+TO BE RELEASED.
+
 ## Dependencies
 
 This code depends on the following python packages.
