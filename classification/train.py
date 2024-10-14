@@ -21,6 +21,7 @@ from horospherical import (
     LinearLayer,
     HyperbolicLayer,
     HorosphericalLayer,
+    HorosphericalDMM,
     BusemannPrototypes,
 )
 from gromov_protos import (
@@ -50,7 +51,7 @@ def parse_args():
         default="euclidean",
         choices=[
             "euclidean", "hyperbolic",
-            "horospherical",
+            "horospherical", "horospherical_dmm",
             "busemann", "metric_guided",
         ],
     )
@@ -260,6 +261,12 @@ def main(args):
             proto_file=args.proto_file,
             **head_args,
         )
+    elif args.method == "horospherical_dmm":
+        head = HorosphericalDMM(
+            phi=args.lambda_ * args.dim,
+            proto_file=args.proto_file,
+            **head_args,
+        )
     elif args.method == "hyperbolic":
         head = HyperbolicLayer(**head_args)
     elif args.method == "metric_guided":
@@ -346,7 +353,7 @@ def main(args):
             loss = bu_loss(embeddings, head.prototypes[y, :])
             return loss
 
-        if args.method in ["hyperbolic", "horospherical"]:
+        if args.method in ["hyperbolic", "horospherical", "horospherical_dmm"]:
             embeddings = ball.expmap0(embeddings)
 
         logits = head.logits(embeddings)

@@ -176,6 +176,47 @@ class HorosphericalLayer(torch.nn.Module):
         return radius
 
 
+class HorosphericalDMM(nn.Module):
+    def __init__(self, n_in_feature: int, n_decisions: int, phi: float = 0, proto_file: str = ""):
+        super().__init__()
+
+        print(f">> Using precomputed prototypes as initialization from '{proto_file}'")
+        point = torch.from_numpy(np.load(proto_file)).float()
+        point = point.reshape(-1, n_in_feature)
+        num_protos = point.size(0)
+
+        sphere = geoopt.Sphere()
+        self.register_parameter("point", geoopt.ManifoldParameter(point, sphere))
+
+        # TODO: should we have this?
+        bias = torch.zeros(num_protos)
+        self.register_parameter("bias", torch.nn.Parameter(bias))
+
+        self.phi = phi
+        self.penalize = self.phi != 0.
+
+        # TODO: replace/initialize with GW transport plan?
+        # TODO: bias?
+        self.fc = nn.Linear(num_protos, n_decisions, bias=True)
+
+    def forward(self, x):
+        return torch.sigmoid(self.logits(x))
+
+    def logprobs(self, x):
+        return torch.nn.functional.logsigmoid(self.logits(x))
+
+    def logits(self, x):
+        D = busemann(x, self.point)  # size (b, num_protos)
+        # TODO: penalization ?
+        # if self.penalize:
+        #     penalty = (
+        #         self.phi *
+        #         torch.log(1 - l2(x, keepdim=True) + 1e-15)
+        #     )  # size (b, 1)
+        #     return ((-D + self.bias) + penalty)
+        return self.fc(-D + self.bias)  # size (b, n_decisions)
+
+
 class BusemannPrototypes(nn.Module):
     """
     Busemann classifier implementation based on Ghadimi Atigh et al.
