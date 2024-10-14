@@ -196,7 +196,7 @@ class BusemannPrototypes(nn.Module):
             "prototypes",
             torch.from_numpy(np.load(point_path)).float()
         )
-        assert self.prototypes.size(1) == n_decisions, "invalid prototype file"
+        assert self.prototypes.shape == (n_decisions, n_in_feature), "invalid prototype file"
 
     def forward(self, x):
         return torch.sigmoid(self.logits(x))
