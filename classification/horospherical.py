@@ -155,12 +155,11 @@ class HorosphericalLayer(torch.nn.Module):
 
     def logits(self, x):
         D = busemann(x, self.point)  # size (b, n_decisions)
-        D = D.permute(1, 0, 2)
         if self.penalize:
             penalty = (
                 self.phi *
-                torch.log(1 - l2(x, keepdim=True) + 1e-15).unsqueeze(-1)
-            )  # size (b, n_decisions)
+                torch.log(1 - l2(x, keepdim=True) + 1e-15)
+            )  # size (b, 1)
             return ((-D + self.bias) + penalty)
         return (-D + self.bias)  # size (b, n_decisions)
 

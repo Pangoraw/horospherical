@@ -342,14 +342,11 @@ def main(args):
     def compute_loss(x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
         embeddings = model(x)
         if args.method == "busemann":
-            # print("enorm", embeddings[:3], embeddings[0].norm(-1))
             embeddings = ball.expmap0(embeddings)
             loss = bu_loss(embeddings, head.prototypes[y, :])
-            # print("enorm", embeddings[:3], embeddings[0].norm(-1))
-            # print("===")
             return loss
 
-        if args.method in ["hyperbolic", "horospherical", "horospherical_dmm"]:
+        if args.method in ["hyperbolic", "horospherical"]:
             embeddings = ball.expmap0(embeddings)
 
         logits = head.logits(embeddings)
