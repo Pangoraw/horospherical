@@ -49,6 +49,12 @@ In the paper, several kind of experiments on classification over hierarchical da
 
 The code for the image classification experiments is located in folder [`classification/`](./classification).
 
+The following datasets have been used:
+
+ - [CUB200](https://data.caltech.edu/records/65de6-vp158) - should be downloaded and extracted in the `data/` folder under the name `data/CUB_200_2011/`.
+ - [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html) - will be automatically downloaded in the `data` folder.
+ - [CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html) - will be automatically downloaded in the `data` folder.
+
 ### Semantic Segmentation
 
 TO BE RELEASED.
