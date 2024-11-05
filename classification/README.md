@@ -10,13 +10,11 @@ python train.py \
     --method horospherical \
     --proto_file "<PATH_TO_PROTOTYPES>" \
     --dim $DIM \
-    --epochs 1000 \
+    --epochs 2110 \
     --schedule none \
-    --lambda_ 0.0 \
-    --optimizer sgd \
-    --lr 0.045 \
-    --momentum 0.2 \
-    --weight_decay 0.0
+    --lambda_ 0.05 \
+    --weight_decay 0.0001 \
+    --lr 0.0005
 
 # CIFAR10
 
