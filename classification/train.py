@@ -84,7 +84,7 @@ def parse_args():
     parser.add_argument("--proto_file")
     parser.add_argument("--gw_penalty", action="store_true")
     parser.add_argument("--momentum", default=None, type=float)
-    parser.add_argument("--online_loss", action="store_true")
+    parser.add_argument("--online_loss", type=float, default=0.0)
     return parser.parse_args()
 
 
@@ -394,9 +394,9 @@ def main(args):
             # NOTE: authors report using lambda_ = 1.0
             loss += dis_loss(head.prototypes)
 
-        if args.online_loss:
+        if args.online_loss != 0.0:
             # TODO: horospherical only
-            loss += on_loss(head.point)
+            loss += args.online_loss * on_loss(head.point)
 
         return loss
 
