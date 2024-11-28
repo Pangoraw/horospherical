@@ -89,7 +89,12 @@ def parse_args():
 
 
 class OnlineLoss(torch.nn.Module):
-    def __init__(self, G):
+    """
+    Minimize the Gromov-Wasserstein distance between the label hierarchy and
+    the prototypes located on the ideal boundary of the Poincaré ball.
+    """
+
+    def __init__(self, G: nx.DiGraph):
         super().__init__()
 
         def is_leaf(G: nx.DiGraph, node) -> bool:
