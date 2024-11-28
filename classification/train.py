@@ -14,6 +14,8 @@ from torchvision.datasets import CIFAR100, CIFAR10
 from torchvision.models import resnet18
 import geoopt
 from sklearn.model_selection import train_test_split
+import networkx as nx
+import ot
 
 from ahc import AverageHierarchicalCost
 import resnet
@@ -82,7 +84,35 @@ def parse_args():
     parser.add_argument("--proto_file")
     parser.add_argument("--gw_penalty", action="store_true")
     parser.add_argument("--momentum", default=None, type=float)
+    parser.add_argument("--online_loss", action="store_true")
     return parser.parse_args()
+
+
+class OnlineLoss(torch.nn.Module):
+    def __init__(self, G):
+        super().__init__()
+
+        def is_leaf(G: nx.DiGraph, node) -> bool:
+            return G.out_degree[node] == 0
+
+        all_nodes = [n for n in G.nodes if is_leaf(G, n)]
+        num_nodes = len(all_nodes)
+        M_tree = torch.zeros(num_nodes, num_nodes)
+        uG = nx.Graph(G)
+
+        for i, n in enumerate(all_nodes):
+            for j, m in enumerate(all_nodes):
+                l = nx.shortest_path_length(uG, source=n, target=m)
+                M_tree[i,j] = l
+
+        self.register_buffer("M_tree", M_tree)
+
+    def forward(self, p: torch.Tensor) -> torch.Tensor:
+        M_sphere = 1 - (p @ p.T)
+        num_nodes = p.size(0)
+        p = q = torch.full((num_nodes,), 1/num_nodes, device=p.device)
+        return ot.gromov_wasserstein2(self.M_tree, M_sphere, p, q)
+
 
 
 def main(args):
@@ -329,6 +359,7 @@ def main(args):
     else:
         schedule = None
 
+    on_loss = OnlineLoss(G).to(device)
     bu_loss = PeBusePenalty(args.dim, mult=args.lambda_)
     ce_loss = nn.CrossEntropyLoss()
 
@@ -362,6 +393,10 @@ def main(args):
         if args.method == "metric_guided":
             # NOTE: authors report using lambda_ = 1.0
             loss += dis_loss(head.prototypes)
+
+        if args.online_loss:
+            # TODO: horospherical only
+            loss += on_loss(head.point)
 
         return loss
 
