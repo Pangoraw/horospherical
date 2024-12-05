@@ -5,7 +5,7 @@
 
 <img width="1331" alt="overview" src="https://github.com/user-attachments/assets/4bab9ca6-68b7-48b2-a309-0fd45f2d86f0">
 
-This repository contains the code for the article "Horospherical Learning with Smart Prototypes" to be published at [BMVC2024](https://bmvc2024.org).
+This repository contains the code for the article "Horospherical Learning with Smart Prototypes" to be published at [BMVC2024](https://bmvc2024.org). The full paper can be found [here](https://hal.science/hal-04814237).
 
 ## Generating uniform prototypes
 
